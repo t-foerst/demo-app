@@ -42,9 +42,6 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -77,7 +74,9 @@ jobs:
             --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Apply manifests
-        run: kubectl apply -k k8s/
+        run: |
+          git clone --depth=1 https://github.com/t-foerst/demo-kubernetes.git infra
+          kubectl apply -k infra/app/overlays/cicd
 
       - name: Roll out new image
         run: kubectl set image deployment/demo-app demo-app=${{ env.IMAGE }}:${{ github.sha }} -n demo-app-cicd
