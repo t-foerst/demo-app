@@ -73,4 +73,4 @@ jobs:
           kubectl apply -k .
 
       - name: Wait for rollout
-        run: kubectl rollout status deployment/demo-app -n demo-app-cicd --timeout=120s
+        run: kubectl rollout status deployment/demo-app -n demo-app-cicd --timeout=300s
