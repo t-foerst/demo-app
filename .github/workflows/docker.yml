@@ -53,7 +53,7 @@ jobs:
 
       - name: Configure DB connection
         env:
-          SECRET_ARN: arn:aws:secretsmanager:eu-central-1:398934906881:secret:rds!db-29f7088c-beed-4e24-915a-e8697ee55950-Vlstkh
+          SECRET_ARN: arn:aws:secretsmanager:eu-central-1:398934906881:secret:rds!db-ea78df63-baed-4c53-abb4-6c887f223766-cncKNj
         run: |
           SECRET=$(aws secretsmanager get-secret-value \
             --secret-id "$SECRET_ARN" \
