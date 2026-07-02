@@ -39,7 +39,6 @@ app.get('/', async (_req, res) => {
 });
 
 function renderPage(count, err) {
-  const dbHost = process.env.DB_HOST ?? 'unknown';
   return `<!doctype html>
 <html lang="de">
 <head>
@@ -67,18 +66,6 @@ function renderPage(count, err) {
     h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; }
     p { color: #94a3b8; line-height: 1.6; margin-top: 0.75rem; }
     .count { font-size: 3.5rem; font-weight: 700; color: #7dd3fc; margin: 1rem 0; }
-    .badge {
-      display: inline-block;
-      margin-top: 1.5rem;
-      padding: 0.3rem 0.8rem;
-      background: #1e293b;
-      border: 1px solid #475569;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      color: #7dd3fc;
-      letter-spacing: 0.05em;
-    }
-    .db { margin-top: 0.5rem; font-size: 0.75rem; color: #475569; }
     .error { color: #f87171; }
   </style>
 </head>
@@ -91,8 +78,6 @@ function renderPage(count, err) {
          <div class="count">${count}</div>
          <p>mal aufgerufen.</p>`
     }
-    <span class="badge">Node.js &middot; PostgreSQL on AWS RDS</span>
-    <p class="db">${esc(dbHost)}</p>
   </div>
 </body>
 </html>`;
