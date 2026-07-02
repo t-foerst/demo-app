@@ -33,6 +33,8 @@ jobs:
           tags: |
             ${{ env.IMAGE }}:${{ github.sha }}
             ${{ env.IMAGE }}:latest
+          build-args: |
+            VERSION=${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest

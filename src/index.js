@@ -66,6 +66,12 @@ function renderPage(count, err) {
     h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; }
     p { color: #94a3b8; line-height: 1.6; margin-top: 0.75rem; }
     .count { font-size: 3.5rem; font-weight: 700; color: #7dd3fc; margin: 1rem 0; }
+    .version {
+      margin-top: 1.5rem;
+      font-size: 0.7rem;
+      color: #334155;
+      font-family: monospace;
+    }
     .error { color: #f87171; }
   </style>
 </head>
@@ -78,6 +84,7 @@ function renderPage(count, err) {
          <div class="count">${count}</div>
          <p>mal aufgerufen.</p>`
     }
+    <p class="version">${esc((process.env.VERSION ?? 'dev').slice(0, 7))}</p>
   </div>
 </body>
 </html>`;
