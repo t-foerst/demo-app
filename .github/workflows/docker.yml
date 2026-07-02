@@ -51,20 +51,13 @@ jobs:
       - name: Update kubeconfig
         run: aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER_NAME }} --region ${{ vars.AWS_REGION }}
 
-      - name: Configure DB connection
+      - name: Configure DB secret
         run: |
           SECRET=$(aws secretsmanager get-secret-value \
             --secret-id "${{ vars.DB_SECRET_ARN }}" \
             --query SecretString --output text)
           DB_PASSWORD=$(echo "$SECRET" | jq -r .password)
           echo "::add-mask::$DB_PASSWORD"
-          kubectl create configmap demo-app-config \
-            --from-literal=DB_HOST=${{ vars.DB_HOST }} \
-            --from-literal=DB_PORT=${{ vars.DB_PORT }} \
-            --from-literal=DB_NAME=${{ vars.DB_NAME }} \
-            --from-literal=DB_USER=${{ vars.DB_USER }} \
-            --namespace=demo-app-cicd \
-            --dry-run=client -o yaml | kubectl apply -f -
           kubectl create secret generic demo-app-secret \
             --from-literal=DB_PASSWORD="$DB_PASSWORD" \
             --namespace=demo-app-cicd \
@@ -73,7 +66,7 @@ jobs:
       - name: Apply manifests
         run: |
           git clone --depth=1 https://github.com/t-foerst/demo-kubernetes.git infra
-          kubectl apply -k infra/app/overlays/cicd
+          kubectl apply -f infra/cicd
 
       - name: Roll out new image
         run: kubectl set image deployment/demo-app demo-app=${{ env.IMAGE }}:${{ github.sha }} -n demo-app-cicd
