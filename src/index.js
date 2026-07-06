@@ -24,6 +24,15 @@ app.get('/healthz', async (_req, res) => {
   }
 });
 
+app.get('/count', async (_req, res) => {
+  try {
+    const result = await pool.query('SELECT COUNT(*)::int AS count FROM visits');
+    res.json({ count: result.rows[0].count });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 app.get('/', async (_req, res) => {
   let count = null;
   let err = null;
@@ -81,8 +90,16 @@ function renderPage(count, err) {
     ${err
       ? `<p class="error">DB-Fehler: ${esc(err)}</p>`
       : `<p>Diese Seite wurde</p>
-         <div class="count">${count}</div>
-         <p>mal aufgerufen.</p>`
+         <div class="count" id="count">${count}</div>
+         <p>mal aufgerufen.</p>
+         <script>
+           setInterval(async () => {
+             try {
+               const { count } = await fetch('/count').then(r => r.json());
+               document.getElementById('count').textContent = count;
+             } catch {}
+           }, 1000);
+         </script>`
     }
     <p class="version">${esc((process.env.VERSION ?? 'dev').slice(0, 7))}</p>
   </div>
