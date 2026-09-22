@@ -53,9 +53,6 @@ jobs:
       - name: Update kubeconfig
         run: aws eks update-kubeconfig --name ${{ vars.EKS_CLUSTER_NAME }} --region ${{ vars.AWS_REGION }}
 
-      - name: Ensure namespace
-        run: kubectl create namespace demo-app-cicd --dry-run=client -o yaml | kubectl apply -f -
-
       - name: Configure DB secret
         run: |
           SECRET=$(aws secretsmanager get-secret-value \
