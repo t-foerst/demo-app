@@ -115,7 +115,6 @@ function esc(str) {
 }
 
 async function main() {
-  throw new Error('TEST: bewusst fehlerhaftes Deployment (Bachelorarbeit Test 2)');
   await pool.query(`
     CREATE TABLE IF NOT EXISTS visits (
       id SERIAL PRIMARY KEY,
