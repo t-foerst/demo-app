@@ -87,6 +87,7 @@ function renderPage(count, err) {
 <body>
   <div class="card">
     <h1>Demo App</h1>
+    <p class="error" id="fehlermarker">FEHLERVERSION-R1</p>
     ${err
       ? `<p class="error">DB-Fehler: ${esc(err)}</p>`
       : `<p>Diese Seite wurde</p>
